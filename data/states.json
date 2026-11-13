@@ -1,0 +1,683 @@
+[
+  {
+    "abbr": "AL",
+    "name": "Alabama",
+    "region": "South",
+    "capital": "Montgomery",
+    "fips": "01",
+    "query": "Alabama",
+    "patterns": [
+      "alabama",
+      "birmingham",
+      "montgomery",
+      "huntsville"
+    ]
+  },
+  {
+    "abbr": "AK",
+    "name": "Alaska",
+    "region": "West",
+    "capital": "Juneau",
+    "fips": "02",
+    "query": "Alaska",
+    "patterns": [
+      "alaska",
+      "anchorage",
+      "juneau",
+      "fairbanks"
+    ]
+  },
+  {
+    "abbr": "AZ",
+    "name": "Arizona",
+    "region": "West",
+    "capital": "Phoenix",
+    "fips": "04",
+    "query": "Arizona",
+    "patterns": [
+      "arizona",
+      "phoenix",
+      "tucson",
+      "scottsdale"
+    ]
+  },
+  {
+    "abbr": "AR",
+    "name": "Arkansas",
+    "region": "South",
+    "capital": "Little Rock",
+    "fips": "05",
+    "query": "Arkansas",
+    "patterns": [
+      "arkansas",
+      "little rock"
+    ]
+  },
+  {
+    "abbr": "CA",
+    "name": "California",
+    "region": "West",
+    "capital": "Sacramento",
+    "fips": "06",
+    "query": "California",
+    "patterns": [
+      "california",
+      "los angeles",
+      "san francisco",
+      "sacramento",
+      "san diego",
+      "oakland"
+    ]
+  },
+  {
+    "abbr": "CO",
+    "name": "Colorado",
+    "region": "West",
+    "capital": "Denver",
+    "fips": "08",
+    "query": "Colorado",
+    "patterns": [
+      "colorado",
+      "denver",
+      "boulder"
+    ]
+  },
+  {
+    "abbr": "CT",
+    "name": "Connecticut",
+    "region": "Northeast",
+    "capital": "Hartford",
+    "fips": "09",
+    "query": "Connecticut",
+    "patterns": [
+      "connecticut",
+      "hartford",
+      "new haven"
+    ]
+  },
+  {
+    "abbr": "DE",
+    "name": "Delaware",
+    "region": "South",
+    "capital": "Dover",
+    "fips": "10",
+    "query": "Delaware",
+    "patterns": [
+      "delaware",
+      "wilmington"
+    ]
+  },
+  {
+    "abbr": "DC",
+    "name": "District of Columbia",
+    "region": "South",
+    "capital": "Washington",
+    "fips": "11",
+    "query": "\"District of Columbia\" OR \"Washington, D.C.\" OR \"D.C. Council\" OR \"Mayor Bowser\"",
+    "patterns": [
+      "district of columbia",
+      "washington, d.c",
+      "washington d.c",
+      "washington dc",
+      "d.c. council",
+      "mayor bowser",
+      "white house"
+    ],
+    "mode": "dc"
+  },
+  {
+    "abbr": "FL",
+    "name": "Florida",
+    "region": "South",
+    "capital": "Tallahassee",
+    "fips": "12",
+    "query": "Florida",
+    "patterns": [
+      "florida",
+      "miami",
+      "tampa",
+      "orlando",
+      "tallahassee",
+      "jacksonville"
+    ]
+  },
+  {
+    "abbr": "GA",
+    "name": "Georgia",
+    "region": "South",
+    "capital": "Atlanta",
+    "fips": "13",
+    "query": "Georgia (Atlanta OR Savannah OR Augusta OR Macon)",
+    "patterns": [
+      "georgia",
+      "atlanta",
+      "savannah",
+      "augusta",
+      "macon"
+    ],
+    "mode": "georgia"
+  },
+  {
+    "abbr": "HI",
+    "name": "Hawaii",
+    "region": "West",
+    "capital": "Honolulu",
+    "fips": "15",
+    "query": "Hawaii",
+    "patterns": [
+      "hawaii",
+      "honolulu",
+      "maui",
+      "oahu"
+    ]
+  },
+  {
+    "abbr": "ID",
+    "name": "Idaho",
+    "region": "West",
+    "capital": "Boise",
+    "fips": "16",
+    "query": "Idaho",
+    "patterns": [
+      "idaho",
+      "boise"
+    ]
+  },
+  {
+    "abbr": "IL",
+    "name": "Illinois",
+    "region": "Midwest",
+    "capital": "Springfield",
+    "fips": "17",
+    "query": "Illinois",
+    "patterns": [
+      "illinois",
+      "chicago"
+    ]
+  },
+  {
+    "abbr": "IN",
+    "name": "Indiana",
+    "region": "Midwest",
+    "capital": "Indianapolis",
+    "fips": "18",
+    "query": "Indiana",
+    "patterns": [
+      "indiana",
+      "indianapolis",
+      "fort wayne"
+    ]
+  },
+  {
+    "abbr": "IA",
+    "name": "Iowa",
+    "region": "Midwest",
+    "capital": "Des Moines",
+    "fips": "19",
+    "query": "Iowa",
+    "patterns": [
+      "iowa",
+      "des moines"
+    ]
+  },
+  {
+    "abbr": "KS",
+    "name": "Kansas",
+    "region": "Midwest",
+    "capital": "Topeka",
+    "fips": "20",
+    "query": "Kansas",
+    "patterns": [
+      "kansas",
+      "topeka",
+      "wichita"
+    ]
+  },
+  {
+    "abbr": "KY",
+    "name": "Kentucky",
+    "region": "South",
+    "capital": "Frankfort",
+    "fips": "21",
+    "query": "Kentucky",
+    "patterns": [
+      "kentucky",
+      "louisville",
+      "lexington"
+    ]
+  },
+  {
+    "abbr": "LA",
+    "name": "Louisiana",
+    "region": "South",
+    "capital": "Baton Rouge",
+    "fips": "22",
+    "query": "Louisiana",
+    "patterns": [
+      "louisiana",
+      "new orleans",
+      "baton rouge"
+    ]
+  },
+  {
+    "abbr": "ME",
+    "name": "Maine",
+    "region": "Northeast",
+    "capital": "Augusta",
+    "fips": "23",
+    "query": "Maine",
+    "patterns": [
+      "maine",
+      "bangor"
+    ]
+  },
+  {
+    "abbr": "MD",
+    "name": "Maryland",
+    "region": "South",
+    "capital": "Annapolis",
+    "fips": "24",
+    "query": "Maryland",
+    "patterns": [
+      "maryland",
+      "baltimore",
+      "annapolis"
+    ]
+  },
+  {
+    "abbr": "MA",
+    "name": "Massachusetts",
+    "region": "Northeast",
+    "capital": "Boston",
+    "fips": "25",
+    "query": "Massachusetts",
+    "patterns": [
+      "massachusetts",
+      "boston"
+    ]
+  },
+  {
+    "abbr": "MI",
+    "name": "Michigan",
+    "region": "Midwest",
+    "capital": "Lansing",
+    "fips": "26",
+    "query": "Michigan",
+    "patterns": [
+      "michigan",
+      "detroit",
+      "grand rapids"
+    ]
+  },
+  {
+    "abbr": "MN",
+    "name": "Minnesota",
+    "region": "Midwest",
+    "capital": "Saint Paul",
+    "fips": "27",
+    "query": "Minnesota",
+    "patterns": [
+      "minnesota",
+      "minneapolis",
+      "st. paul",
+      "saint paul"
+    ]
+  },
+  {
+    "abbr": "MS",
+    "name": "Mississippi",
+    "region": "South",
+    "capital": "Jackson",
+    "fips": "28",
+    "query": "Mississippi",
+    "patterns": [
+      "mississippi"
+    ]
+  },
+  {
+    "abbr": "MO",
+    "name": "Missouri",
+    "region": "Midwest",
+    "capital": "Jefferson City",
+    "fips": "29",
+    "query": "Missouri",
+    "patterns": [
+      "missouri",
+      "st. louis",
+      "saint louis"
+    ]
+  },
+  {
+    "abbr": "MT",
+    "name": "Montana",
+    "region": "West",
+    "capital": "Helena",
+    "fips": "30",
+    "query": "Montana",
+    "patterns": [
+      "montana",
+      "billings",
+      "missoula",
+      "helena"
+    ]
+  },
+  {
+    "abbr": "NE",
+    "name": "Nebraska",
+    "region": "Midwest",
+    "capital": "Lincoln",
+    "fips": "31",
+    "query": "Nebraska",
+    "patterns": [
+      "nebraska",
+      "omaha"
+    ]
+  },
+  {
+    "abbr": "NV",
+    "name": "Nevada",
+    "region": "West",
+    "capital": "Carson City",
+    "fips": "32",
+    "query": "Nevada",
+    "patterns": [
+      "nevada",
+      "las vegas",
+      "reno"
+    ]
+  },
+  {
+    "abbr": "NH",
+    "name": "New Hampshire",
+    "region": "Northeast",
+    "capital": "Concord",
+    "fips": "33",
+    "query": "\"New Hampshire\"",
+    "patterns": [
+      "new hampshire"
+    ]
+  },
+  {
+    "abbr": "NJ",
+    "name": "New Jersey",
+    "region": "Northeast",
+    "capital": "Trenton",
+    "fips": "34",
+    "query": "\"New Jersey\"",
+    "patterns": [
+      "new jersey",
+      "newark",
+      "trenton",
+      "jersey city"
+    ]
+  },
+  {
+    "abbr": "NM",
+    "name": "New Mexico",
+    "region": "West",
+    "capital": "Santa Fe",
+    "fips": "35",
+    "query": "\"New Mexico\"",
+    "patterns": [
+      "new mexico",
+      "albuquerque",
+      "santa fe"
+    ]
+  },
+  {
+    "abbr": "NY",
+    "name": "New York",
+    "region": "Northeast",
+    "capital": "Albany",
+    "fips": "36",
+    "query": "\"New York\"",
+    "patterns": [
+      "new york",
+      "nyc",
+      "manhattan",
+      "brooklyn",
+      "buffalo",
+      "albany"
+    ],
+    "mode": "new-york"
+  },
+  {
+    "abbr": "NC",
+    "name": "North Carolina",
+    "region": "South",
+    "capital": "Raleigh",
+    "fips": "37",
+    "query": "\"North Carolina\"",
+    "patterns": [
+      "north carolina",
+      "charlotte",
+      "raleigh",
+      "durham"
+    ]
+  },
+  {
+    "abbr": "ND",
+    "name": "North Dakota",
+    "region": "Midwest",
+    "capital": "Bismarck",
+    "fips": "38",
+    "query": "\"North Dakota\"",
+    "patterns": [
+      "north dakota",
+      "fargo",
+      "bismarck"
+    ]
+  },
+  {
+    "abbr": "OH",
+    "name": "Ohio",
+    "region": "Midwest",
+    "capital": "Columbus",
+    "fips": "39",
+    "query": "Ohio",
+    "patterns": [
+      "ohio",
+      "cleveland",
+      "cincinnati"
+    ]
+  },
+  {
+    "abbr": "OK",
+    "name": "Oklahoma",
+    "region": "South",
+    "capital": "Oklahoma City",
+    "fips": "40",
+    "query": "Oklahoma",
+    "patterns": [
+      "oklahoma",
+      "tulsa"
+    ]
+  },
+  {
+    "abbr": "OR",
+    "name": "Oregon",
+    "region": "West",
+    "capital": "Salem",
+    "fips": "41",
+    "query": "Oregon",
+    "patterns": [
+      "oregon",
+      "eugene"
+    ]
+  },
+  {
+    "abbr": "PA",
+    "name": "Pennsylvania",
+    "region": "Northeast",
+    "capital": "Harrisburg",
+    "fips": "42",
+    "query": "Pennsylvania",
+    "patterns": [
+      "pennsylvania",
+      "philadelphia",
+      "pittsburgh",
+      "harrisburg"
+    ]
+  },
+  {
+    "abbr": "RI",
+    "name": "Rhode Island",
+    "region": "Northeast",
+    "capital": "Providence",
+    "fips": "44",
+    "query": "\"Rhode Island\"",
+    "patterns": [
+      "rhode island",
+      "providence"
+    ]
+  },
+  {
+    "abbr": "SC",
+    "name": "South Carolina",
+    "region": "South",
+    "capital": "Columbia",
+    "fips": "45",
+    "query": "\"South Carolina\"",
+    "patterns": [
+      "south carolina"
+    ]
+  },
+  {
+    "abbr": "SD",
+    "name": "South Dakota",
+    "region": "Midwest",
+    "capital": "Pierre",
+    "fips": "46",
+    "query": "\"South Dakota\"",
+    "patterns": [
+      "south dakota",
+      "sioux falls",
+      "rapid city"
+    ]
+  },
+  {
+    "abbr": "TN",
+    "name": "Tennessee",
+    "region": "South",
+    "capital": "Nashville",
+    "fips": "47",
+    "query": "Tennessee",
+    "patterns": [
+      "tennessee",
+      "nashville",
+      "memphis",
+      "knoxville"
+    ]
+  },
+  {
+    "abbr": "TX",
+    "name": "Texas",
+    "region": "South",
+    "capital": "Austin",
+    "fips": "48",
+    "query": "Texas",
+    "patterns": [
+      "texas",
+      "houston",
+      "dallas",
+      "austin",
+      "san antonio"
+    ]
+  },
+  {
+    "abbr": "UT",
+    "name": "Utah",
+    "region": "West",
+    "capital": "Salt Lake City",
+    "fips": "49",
+    "query": "Utah",
+    "patterns": [
+      "utah",
+      "salt lake"
+    ]
+  },
+  {
+    "abbr": "VT",
+    "name": "Vermont",
+    "region": "Northeast",
+    "capital": "Montpelier",
+    "fips": "50",
+    "query": "Vermont",
+    "patterns": [
+      "vermont",
+      "burlington",
+      "montpelier"
+    ]
+  },
+  {
+    "abbr": "VA",
+    "name": "Virginia",
+    "region": "South",
+    "capital": "Richmond",
+    "fips": "51",
+    "query": "\"Virginia\" -\"West Virginia\"",
+    "patterns": [
+      "virginia",
+      "richmond",
+      "norfolk",
+      "virginia beach"
+    ],
+    "mode": "virginia"
+  },
+  {
+    "abbr": "WA",
+    "name": "Washington",
+    "region": "West",
+    "capital": "Olympia",
+    "fips": "53",
+    "query": "\"Washington state\" OR Seattle OR Olympia OR Spokane OR Tacoma",
+    "patterns": [
+      "washington state",
+      "state of washington",
+      "seattle",
+      "olympia",
+      "spokane",
+      "tacoma",
+      "bellevue",
+      "everett"
+    ],
+    "mode": "washington"
+  },
+  {
+    "abbr": "WV",
+    "name": "West Virginia",
+    "region": "South",
+    "capital": "Charleston",
+    "fips": "54",
+    "query": "\"West Virginia\"",
+    "patterns": [
+      "west virginia"
+    ],
+    "mode": "west-virginia"
+  },
+  {
+    "abbr": "WI",
+    "name": "Wisconsin",
+    "region": "Midwest",
+    "capital": "Madison",
+    "fips": "55",
+    "query": "Wisconsin",
+    "patterns": [
+      "wisconsin",
+      "milwaukee",
+      "madison"
+    ]
+  },
+  {
+    "abbr": "WY",
+    "name": "Wyoming",
+    "region": "West",
+    "capital": "Cheyenne",
+    "fips": "56",
+    "query": "Wyoming",
+    "patterns": [
+      "wyoming",
+      "cheyenne"
+    ]
+  }
+]

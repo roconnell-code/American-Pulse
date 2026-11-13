@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>American Pulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/promo.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23050812'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23f3efe6'/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="glow" id="glow" aria-hidden="true"></div>
+  <div class="stripes" aria-hidden="true"></div>
+  <div class="stars" aria-hidden="true"></div>
+  <canvas id="dust" aria-hidden="true"></canvas>
+
+  <section class="title" id="title">
+    <p class="mark"><span class="flag" aria-hidden="true"></span>American Pulse</p>
+    <h1>A nation<br>in motion.</h1>
+    <button type="button" id="begin">Begin</button>
+  </section>
+
+  <section class="further" id="about" hidden>
+    <header>
+      <span>About</span>
+      <a class="enter" href="index.html">Enter</a>
+    </header>
+    <div class="beats">
+      <button type="button" data-note="A place to keep up with the news, state by state.">What it is</button>
+      <button type="button" data-note="A map. Touch a state and read the stories coming out of it.">How it works</button>
+      <button type="button" data-note="I made it for my current events class. I hope other students can use it too.">Why I built it</button>
+    </div>
+    <p class="line">
+      <span id="about-note" class="note"></span>
+      <button type="button" id="tomap">The map</button>
+    </p>
+  </section>
+
+  <main class="piece" id="piece" hidden>
+    <header>
+      <a href="promo.html">American Pulse</a>
+      <a class="enter" href="index.html">Enter</a>
+    </header>
+    <div class="stage">
+      <svg id="land" role="img" aria-label="United States"></svg>
+      <p id="name" class="name"></p>
+    </div>
+    <p class="line"><span>The past week, one state at a time.</span><button type="button" id="more">More</button></p>
+  </main>
+
+  <section class="further" id="further" hidden>
+    <header>
+      <button type="button" id="back">Back</button>
+      <a class="enter" href="index.html">Enter</a>
+    </header>
+    <div class="beats" id="beats">
+      <button type="button" data-note="Only the last seven days.">The week</button>
+      <button type="button" data-note="Any state you want.">The state</button>
+      <button type="button" data-note="The story opens at the paper.">The paper</button>
+    </div>
+    <p id="note" class="note"></p>
+  </section>
+
+  <script type="module" src="src/promo.js"></script>
+</body>
+</html>

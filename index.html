@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="American Pulse is a seven-day reading room for the United States. Choose a state and open the original reporting.">
+  <title>American Pulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23050812'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%2300E5FF'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%2300E5FF' stroke-opacity='.7'/%3E%3C/svg%3E">
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true">
+    <canvas id="particles"></canvas>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="grid"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <div class="app">
+    <header class="nav">
+      <div class="brand">
+        <span class="flag" aria-hidden="true"></span>
+        <span>
+          <strong>American Pulse</strong>
+          <small>A nation in motion</small>
+        </span>
+      </div>
+      <p id="clock" class="clock">—</p>
+      <div class="nav-actions">
+        <p id="live-pill" class="live" data-state="linking"><i></i><span>Linking</span></p>
+        <button type="button" class="hud-btn" id="search-open">Search <kbd>⌘K</kbd></button>
+        <a class="hud-btn" href="promo.html">Intro</a>
+        <button type="button" class="hud-btn" id="about-open">About</button>
+      </div>
+    </header>
+
+    <h1 class="sr-only">America, in focus.</h1>
+
+    <main class="stage">
+      <section class="map-panel" aria-labelledby="map-heading">
+        <h2 id="map-heading" class="sr-only">United States</h2>
+        <div class="map-stage">
+          <div class="map-rig">
+            <div class="map-tilt" id="map-tilt">
+              <div class="plinth" aria-hidden="true"></div>
+              <svg id="map" role="img" aria-labelledby="map-heading"></svg>
+            </div>
+          </div>
+          <p id="readout" class="readout"></p>
+          <div class="seg map-focus" id="focus-seg" role="group" aria-label="Map focus">
+            <button type="button" data-focus="full" class="is-on" aria-pressed="true">Full</button>
+            <button type="button" data-focus="northeast" aria-pressed="false">Northeast</button>
+            <button type="button" data-focus="south" aria-pressed="false">South</button>
+            <button type="button" data-focus="west" aria-pressed="false">West</button>
+          </div>
+        </div>
+        <div id="state-index" class="state-index" role="listbox" aria-label="States"></div>
+      </section>
+
+      <aside class="panel intel" id="intel" aria-live="polite">
+        <i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>
+        <div id="intel-body" class="intel-body"></div>
+      </aside>
+    </main>
+
+    <footer class="status" id="status">
+      <span>Albers USA</span>
+      <span>50 states + D.C.</span>
+      <span>7-day window</span>
+      <span id="index-status">Index standing by</span>
+    </footer>
+  </div>
+
+  <div id="search-layer" class="overlay" hidden>
+    <div class="dialog palette" role="dialog" aria-modal="true" aria-labelledby="search-label">
+      <label id="search-label" class="eyebrow" for="search-input">Search the desk</label>
+      <input id="search-input" type="search" placeholder="State, city, or story" autocomplete="off" spellcheck="false">
+      <div id="search-results" class="search-results"></div>
+      <p class="dialog-note">Enter opens the highlighted state. Shift+Enter searches the seven-day wire.</p>
+    </div>
+  </div>
+
+  <div id="about-layer" class="overlay" hidden>
+    <div class="dialog about" role="dialog" aria-modal="true" aria-labelledby="about-title">
+      <p class="eyebrow">About the desk</p>
+      <h2 id="about-title">Every state. Every story.</h2>
+      <p>American Pulse is a seven-day reading room for the United States. Choose a state to see reporting that names that place, then open the original article at the publisher.</p>
+      <div class="about-grid">
+        <section>
+          <h3>Window</h3>
+          <p>Only items with a publication time in the previous seven days stay on the desk. Older wire copy is discarded.</p>
+        </section>
+        <section>
+          <h3>Sources</h3>
+          <p>Publisher feeds from The New York Times, NPR, BBC, and The Washington Post. State and search results also use the Bing News index for local desks, including Associated Press and Reuters when they appear there. An optional Guardian or New York Times API key can be set in the server environment.</p>
+        </section>
+        <section>
+          <h3>Summaries</h3>
+          <p>A summary is the publisher’s standfirst or the snippet supplied with the result. This desk does not write articles, rewrite headlines, or fill gaps with estimated numbers.</p>
+        </section>
+        <section>
+          <h3>When the wire is quiet</h3>
+          <p>If a feed does not respond, the panel says news is unavailable and shows nothing in its place. An empty state means no matching article cleared the date and relevance checks.</p>
+        </section>
+      </div>
+      <button type="button" class="hud-btn" id="about-close">Close</button>
+    </div>
+  </div>
+
+  <p id="live-region" class="sr-only" aria-live="polite"></p>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
