@@ -44,6 +44,12 @@
     <main class="stage">
       <section class="map-panel" aria-labelledby="map-heading">
         <h2 id="map-heading" class="sr-only">United States</h2>
+        <div class="seg region-dock" id="focus-seg" role="group" aria-label="Map focus">
+          <button type="button" class="country is-on" data-focus="full" data-scope="national" aria-pressed="true">Whole country</button>
+          <button type="button" data-focus="northeast" aria-pressed="false">Northeast</button>
+          <button type="button" data-focus="south" aria-pressed="false">South</button>
+          <button type="button" data-focus="west" aria-pressed="false">West</button>
+        </div>
         <div class="map-stage">
           <div class="map-rig">
             <div class="map-tilt" id="map-tilt">
@@ -52,18 +58,10 @@
             </div>
           </div>
           <p id="readout" class="readout"></p>
-          <div class="seg map-focus" id="focus-seg" role="group" aria-label="Map focus">
-            <button type="button" data-focus="full" class="is-on" aria-pressed="true">Full</button>
-            <button type="button" data-focus="northeast" aria-pressed="false">Northeast</button>
-            <button type="button" data-focus="south" aria-pressed="false">South</button>
-            <button type="button" data-focus="west" aria-pressed="false">West</button>
-          </div>
         </div>
-        <div id="state-index" class="state-index" role="listbox" aria-label="States"></div>
       </section>
 
       <aside class="panel intel" id="intel" aria-live="polite">
-        <i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>
         <div id="intel-body" class="intel-body"></div>
       </aside>
     </main>

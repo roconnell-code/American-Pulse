@@ -185,7 +185,7 @@ a.hud-btn { text-decoration: none; display: inline-flex; align-items: center; }
   border-color: rgba(194, 59, 74, 0.7);
   background: rgba(178, 34, 52, 0.16);
 }
-.hud-btn:focus-visible, .seg button:focus-visible, .chip:focus-visible, .state:focus-visible, .state-index button:focus-visible, .search-row:focus-visible {
+.hud-btn:focus-visible, .seg button:focus-visible, .chip:focus-visible, .state:focus-visible, .search-row:focus-visible {
   outline: 2px solid var(--cyan);
   outline-offset: 2px;
 }
@@ -236,7 +236,7 @@ h1 em {
 .stage {
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(340px, 0.72fr);
+  grid-template-columns: minmax(0, 1.25fr) minmax(420px, 0.9fr);
   gap: 18px;
 }
 .panel {
@@ -328,7 +328,7 @@ h1 em {
 }
 .slab, #map {
   position: absolute;
-  inset: 4% 2% 12%;
+  inset: 2% 1% 4%;
   overflow: visible;
 }
 .slab { pointer-events: none; }
@@ -367,38 +367,12 @@ h1 em {
   text-shadow: 0 16px 40px #000;
 }
 .readout:empty { display: none; }
-.map-focus {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-  opacity: 0.55;
+.region-dock {
+  align-self: end;
+  margin: 0 0 8px;
+  z-index: 4;
 }
-.map-focus:hover { opacity: 1; }
-
-.state-index {
-  display: grid;
-  grid-template-columns: repeat(17, minmax(0, 1fr));
-  gap: 4px;
-  padding-top: 10px;
-}
-.state-index button {
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--muted);
-  border-radius: 6px;
-  padding: 5px 0;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.04em;
-}
-.state-index { opacity: 0.42; }
-.state-index:hover { opacity: 0.9; }
-.state-index button:hover, .state-index button.is-selected {
-  color: var(--text);
-  border-color: rgba(243, 239, 230, 0.28);
-  background: rgba(122, 40, 54, 0.45);
-}
+.region-dock .country { margin-right: 16px; }
 
 .intel {
   display: flex;
@@ -412,7 +386,7 @@ h1 em {
   border-color: rgba(244, 239, 228, 0.14);
 }
 .intel-body { display: flex; flex-direction: column; min-height: 0; height: 100%; }
-.intel-head { padding: 18px 18px 12px; }
+.intel-head { padding: 28px 28px 8px; }
 .intel-title .eyebrow { margin-bottom: 4px; }
 .intel-title h2 {
   font-family: var(--serif);
@@ -456,13 +430,11 @@ h1 em {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-.tools { margin-top: 12px; }
+.tools { display: grid; gap: 16px; margin-top: 22px; }
 .chips {
   display: flex;
-  gap: 6px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  gap: 8px 10px;
 }
 .chips::-webkit-scrollbar { display: none; }
 .chip {
@@ -476,21 +448,24 @@ h1 em {
   text-transform: none;
 }
 .chip.is-on { color: var(--cream); background: var(--red); border-color: var(--red); }
-.tool-row { gap: 8px; margin-top: 8px; }
+.intel .seg { justify-self: start; padding: 4px; }
+.intel .seg button { padding: 8px 14px; font-family: var(--serif); font-style: italic; font-size: 15px; letter-spacing: 0; text-transform: none; }
 .filter-input {
-  flex: 1;
-  min-width: 0;
-  padding: 8px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(234, 242, 255, 0.1);
-  background: rgba(5, 8, 18, 0.45);
+  width: 100%;
+  padding: 12px 2px;
+  border: 0;
+  border-bottom: 1px solid rgba(244, 239, 228, 0.2);
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--serif);
+  font-size: 18px;
 }
 .filter-input:focus { outline: none; border-color: rgba(194, 59, 74, 0.7); }
 .intel-scroll {
   min-height: 0;
   flex: 1;
   overflow: auto;
-  padding: 4px 16px 18px;
+  padding: 22px 28px 36px;
 }
 .intel-scroll::-webkit-scrollbar { width: 10px; }
 .intel-scroll::-webkit-scrollbar-thumb { background: rgba(178, 34, 52, 0.45); border-radius: 99px; }
@@ -504,33 +479,31 @@ h1 em {
 .notice { color: #d7ecff; }
 
 .card {
-  display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 14px;
-  margin-bottom: 10px;
-  padding: 10px;
+  margin: 0 0 28px;
+  padding: 0 0 28px;
   text-decoration: none;
   color: inherit;
-  border-radius: 8px;
-  border: 1px solid rgba(244, 239, 228, 0.08);
-  background: rgba(244, 239, 228, 0.04);
+  border: 0;
+  border-bottom: 1px solid rgba(244, 239, 228, 0.12);
+  border-radius: 0;
+  background: transparent;
   animation: rise 0.55s cubic-bezier(.16, 1, .3, 1) both;
-  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+  transition: opacity 0.2s ease;
 }
-.card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(194, 59, 74, 0.55);
-  background: rgba(42, 61, 124, 0.28);
-}
+.card:hover { opacity: 0.82; }
+.card:hover h3 { color: #fff; }
 @keyframes rise {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
 .thumb {
   position: relative;
-  height: 88px;
+  height: 190px;
   overflow: hidden;
-  border-radius: 12px;
+  border-radius: 4px;
   background:
     linear-gradient(#2a3d7c, #2a3d7c) 0 0 / 38% 100% no-repeat,
     repeating-linear-gradient(#b22234 0 8px, #f4efe4 8px 16px);
@@ -551,23 +524,23 @@ h1 em {
 .card h3 {
   margin: 0;
   font-family: var(--serif);
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.15;
 }
 .summary {
   display: -webkit-box;
-  margin: 6px 0 0;
+  margin: 0;
   overflow: hidden;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  color: var(--muted);
-  font-size: 13.5px;
-  line-height: 1.45;
+  color: #ddd4c6;
+  font-size: 16px;
+  line-height: 1.55;
 }
-.summary.missing { font-family: var(--serif); font-style: italic; font-size: 15px; }
-.card-foot { justify-content: space-between; gap: 10px; margin-top: 10px; }
+.summary.missing { font-family: var(--serif); font-style: italic; font-size: 16px; }
+.card-foot { justify-content: space-between; gap: 16px; margin-top: 2px; }
 
 .skeleton { position: relative; overflow: hidden; background: rgba(255, 255, 255, 0.04); }
 .skeleton::after {
@@ -689,7 +662,6 @@ h1 em {
   .map-stage { height: min(70vh, 760px); }
   .intel { min-height: 78vh; }
   .clock { order: 3; width: 100%; }
-  .state-index { grid-template-columns: repeat(10, minmax(0, 1fr)); }
 }
 @media (max-width: 720px) {
   .app { padding: 12px; }

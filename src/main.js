@@ -27,7 +27,6 @@ const readout = document.querySelector("#readout");
 const intel = document.querySelector("#intel-body");
 const status = document.querySelector("#index-status");
 const liveRegion = document.querySelector("#live-region");
-const index = document.querySelector("#state-index");
 
 let states = [];
 let map;
@@ -77,10 +76,6 @@ function paint() {
   model.keepFocus = false;
   const description = map?.describe(null);
   if (!model.hovering) readout.innerHTML = readoutHtml(description);
-  for (const button of index.querySelectorAll("button")) {
-    button.classList.toggle("is-selected", button.dataset.abbr === model.selected);
-    button.setAttribute("aria-selected", button.dataset.abbr === model.selected ? "true" : "false");
-  }
   const full = Object.values(model.depth).filter((item) => item === "full").length;
   status.textContent = full ? `Local index ${full}/51` : "Indexing local news";
   document.title = model.selected ? `${currentState()?.name || "State"} — American Pulse` : "American Pulse";
@@ -88,10 +83,66 @@ function paint() {
 
 const site = new URL("../", import.meta.url);
 
+let snapshotPromise;
+
+function loadSnapshot() {
+  if (!snapshotPromise) {
+    snapshotPromise = fetch(new URL("data/snapshot.json", site))
+      .then((response) => (response.ok ? response.json() : null))
+      .catch(() => null);
+  }
+  return snapshotPromise;
+}
+
+function fromSnapshot(snapshot, params) {
+  const scope = params.scope || "national";
+  if (scope === "national") return snapshot.national;
+  if (scope === "state") {
+    return snapshot.states?.[params.id] || {
+      ok: true,
+      scope: "state",
+      articles: [],
+      message: "No articles from the past 7 days matched this state.",
+    };
+  }
+  if (scope === "counts") return snapshot.counts;
+  const query = (params.q || "").toLowerCase();
+  const words = query.split(/\s+/).filter((word) => word.length > 2);
+  const seen = new Set();
+  const articles = [];
+  const groups = [snapshot.national, ...Object.values(snapshot.states || {})];
+  for (const group of groups) {
+    for (const article of group.articles || []) {
+      if (seen.has(article.id)) continue;
+      const text = `${article.title} ${article.summary || ""} ${article.publisher}`.toLowerCase();
+      if (words.length && !words.every((word) => text.includes(word))) continue;
+      seen.add(article.id);
+      articles.push(article);
+    }
+  }
+  articles.sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
+  return {
+    ok: true,
+    scope: "search",
+    query: params.q || "",
+    articles: articles.slice(0, 36),
+    message: articles.length ? "" : "No articles from the past 7 days matched that search.",
+  };
+}
+
 async function getNews(params) {
-  const response = await fetch(new URL(`api/news?${new URLSearchParams(params)}`, site));
-  if (!response.ok) throw new Error(UNAVAILABLE);
-  return response.json();
+  try {
+    const response = await fetch(new URL(`api/news?${new URLSearchParams(params)}`, site));
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.ok) return data;
+    }
+  } catch {
+    /* The public copy uses the saved snapshot when the live server is not there. */
+  }
+  const snapshot = await loadSnapshot();
+  if (!snapshot) throw new Error(UNAVAILABLE);
+  return fromSnapshot(snapshot, params);
 }
 
 let requestSerial = 0;
@@ -178,8 +229,20 @@ async function runSearch(query) {
   paint();
 }
 
+function markRegion(name) {
+  const dock = document.querySelector("#focus-seg");
+  if (!dock) return;
+  for (const item of dock.querySelectorAll("button")) {
+    const on = item.dataset.focus === name;
+    item.classList.toggle("is-on", on);
+    item.setAttribute("aria-pressed", on ? "true" : "false");
+  }
+}
+
 function showNational() {
   requestSerial += 1;
+  markRegion("full");
+  map?.setFocus("full");
   model.mode = "national";
   model.selected = null;
   model.category = "all";
@@ -226,17 +289,13 @@ function bindChrome() {
   document.querySelector("#focus-seg").addEventListener("click", (event) => {
     const button = event.target.closest("[data-focus]");
     if (!button) return;
-    for (const item of event.currentTarget.querySelectorAll("button")) {
-      const on = item === button;
-      item.classList.toggle("is-on", on);
-      item.setAttribute("aria-pressed", on ? "true" : "false");
+    const focus = button.dataset.focus;
+    if (button.dataset.scope === "national") {
+      showNational();
+      return;
     }
-    map.setFocus(button.dataset.focus);
-  });
-
-  index.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-abbr]");
-    if (button) selectState(button.dataset.abbr);
+    markRegion(focus);
+    map.setFocus(focus);
   });
 
   bindPanel(document.querySelector("#intel"), {
@@ -293,12 +352,6 @@ function bindChrome() {
   });
 }
 
-function buildIndex() {
-  index.innerHTML = states.map((state) => `
-    <button type="button" role="option" data-abbr="${esc(state.abbr)}" aria-selected="false" title="${esc(state.name)}">${esc(state.abbr)}</button>
-  `).join("");
-}
-
 async function boot() {
   startParticles(document.querySelector("#particles"));
   paintClock();
@@ -308,7 +361,6 @@ async function boot() {
     fetch(new URL("data/geography.json", site)).then((response) => response.json()),
   ]);
   states = stateList;
-  buildIndex();
   map = mountMap(document.querySelector("#map"), geography, states, {
     hover(info) {
       model.hovering = info;

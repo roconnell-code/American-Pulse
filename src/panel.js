@@ -1,4 +1,4 @@
-import { CATEGORIES, esc, formatFull, inRange, latest } from "./format.js";
+import { CATEGORIES, esc, formatFull, inRange } from "./format.js";
 
 function cards(articles) {
   if (!articles.length) {
@@ -57,37 +57,24 @@ export function renderPanel(root, model) {
   const title = model.mode === "state" && state
     ? state.name
     : model.mode === "search"
-      ? "Search"
-      : "Across the country";
-  const kicker = model.mode === "state" && state
-    ? `${articles.length} stories from this week`
-    : model.mode === "search"
-      ? `Stories matching “${model.searchQuery}”`
-      : `${articles.length || "The"} stories from the past week`;
-  const when = latest(articles);
-  const desks = new Set(articles.map((article) => article.publisher)).size;
+      ? model.searchQuery
+      : "The country";
   const failed = payload && payload.ok === false;
   const empty = payload?.ok && !articles.length;
 
   root.innerHTML = `
     <header class="intel-head">
       <div class="intel-title">
-        <div class="title-row">
-          <h2>${esc(title)}</h2>
-          ${model.mode !== "national" ? '<button type="button" class="text-btn" data-action="national">Whole country</button>' : ""}
-        </div>
-        <p class="intel-kicker">${esc(kicker)}${when ? ` · latest ${esc(formatFull(when))}` : ""}${desks ? ` · ${desks} papers` : ""}</p>
+        <h2>${esc(title)}</h2>
       </div>
       <div class="tools">
         <div class="chips" role="tablist" aria-label="Category">
-          ${CATEGORIES.map(([id, label]) => `<button type="button" class="chip ${model.category === id ? "is-on" : ""}" data-category="${id}" aria-pressed="${model.category === id}">${label}</button>`).join("")}
+          ${CATEGORIES.filter(([id]) => id === "all" || articles.some((article) => article.category === id)).map(([id, label]) => `<button type="button" class="chip ${model.category === id ? "is-on" : ""}" data-category="${id}" aria-pressed="${model.category === id}">${label}</button>`).join("")}
         </div>
-        <div class="tool-row">
-          <div class="seg" role="group" aria-label="Publication window">
-            ${[["24", "24H"], ["72", "72H"], ["7", "7D"]].map(([id, label]) => `<button type="button" data-range="${id}" class="${model.range === id ? "is-on" : ""}" aria-pressed="${model.range === id}">${label}</button>`).join("")}
-          </div>
-          <input id="story-filter" class="filter-input" type="search" placeholder="Filter these stories" value="${esc(model.filter)}" autocomplete="off">
+        <div class="seg" role="group" aria-label="Publication window">
+          ${[["24", "Today"], ["72", "3 days"], ["7", "Week"]].map(([id, label]) => `<button type="button" data-range="${id}" class="${model.range === id ? "is-on" : ""}" aria-pressed="${model.range === id}">${label}</button>`).join("")}
         </div>
+        <input id="story-filter" class="filter-input" type="search" placeholder="Search stories" value="${esc(model.filter)}" autocomplete="off">
       </div>
     </header>
     <div class="intel-scroll">

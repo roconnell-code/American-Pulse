@@ -25,7 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 CACHE_PATH = ROOT / ".cache" / "news.json"
-CACHE_VERSION = 2
+CACHE_VERSION = 3
 WINDOW = timedelta(days=7)
 SUCCESS_TTL = 12 * 60
 FAILURE_TTL = 45
@@ -37,18 +37,18 @@ UA = (
 FEEDS = [
     {"id": "nyt-us", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml"},
     {"id": "nyt-politics", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml"},
-    {"id": "nyt-business", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"},
-    {"id": "nyt-economy", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"},
+    {"id": "nyt-business", "publisher": "The New York Times", "bucket": "us", "section": "economy", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml"},
+    {"id": "nyt-economy", "publisher": "The New York Times", "bucket": "us", "section": "economy", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml"},
     {"id": "nyt-climate", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml"},
     {"id": "nyt-environment", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/EnergyEnvironment.xml"},
     {"id": "nyt-education", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Education.xml"},
-    {"id": "nyt-tech", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"},
+    {"id": "nyt-tech", "publisher": "The New York Times", "bucket": "us", "section": "technology", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml"},
     {"id": "nyt-science", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml"},
     {"id": "nyt-health", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Health.xml"},
     {"id": "nyt-ny", "publisher": "The New York Times", "bucket": "us", "url": "https://rss.nytimes.com/services/xml/rss/nyt/NYRegion.xml"},
     {"id": "npr-news", "publisher": "NPR", "bucket": "world", "url": "https://feeds.npr.org/1001/rss.xml"},
     {"id": "npr-national", "publisher": "NPR", "bucket": "us", "url": "https://feeds.npr.org/1003/rss.xml"},
-    {"id": "npr-business", "publisher": "NPR", "bucket": "us", "url": "https://feeds.npr.org/1006/rss.xml"},
+    {"id": "npr-business", "publisher": "NPR", "bucket": "us", "section": "economy", "url": "https://feeds.npr.org/1006/rss.xml"},
     {"id": "npr-science", "publisher": "NPR", "bucket": "us", "url": "https://feeds.npr.org/1007/rss.xml"},
     {"id": "npr-politics", "publisher": "NPR", "bucket": "us", "url": "https://feeds.npr.org/1014/rss.xml"},
     {"id": "bbc-us", "publisher": "BBC", "bucket": "us", "url": "https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml"},
@@ -58,7 +58,7 @@ FEEDS = [
     {"id": "pbs-economy", "publisher": "PBS NewsHour", "bucket": "us", "url": "https://www.pbs.org/newshour/feeds/rss/economy"},
     {"id": "wapo-national", "publisher": "The Washington Post", "bucket": "us", "url": "https://feeds.washingtonpost.com/rss/national"},
     {"id": "wapo-politics", "publisher": "The Washington Post", "bucket": "us", "url": "https://feeds.washingtonpost.com/rss/politics"},
-    {"id": "wapo-business", "publisher": "The Washington Post", "bucket": "us", "url": "https://feeds.washingtonpost.com/rss/business"},
+    {"id": "wapo-business", "publisher": "The Washington Post", "bucket": "us", "section": "economy", "url": "https://feeds.washingtonpost.com/rss/business"},
     {"id": "reuters-us", "publisher": "Reuters", "bucket": "us", "url": "https://www.reuters.com/world/us/rss"},
     {"id": "ap-top", "publisher": "Associated Press", "bucket": "us", "url": "https://apnews.com/hub/ap-top-news?outputType=rss"},
 ]
@@ -80,8 +80,8 @@ CATEGORIES = [
     ("immigration", "Immigration", ("immigration", "migrant", "asylum", "deport", "border patrol", "undocumented")),
     ("education", "Education", ("school", "student", "teacher", "university", "college", "campus", "education")),
     ("environment", "Environment", ("climate", "wildfire", "hurricane", "flood", "drought", "emission", "pollution", "epa", "tornado", "earthquake", "oil spill")),
+    ("economy", "Economy and Business", ("economy", "economic", "inflation", "federal reserve", "interest rate", "unemployment", "wall street", "stock", "stocks", "shares", "tariff", "jobs", "wages", "layoff", "earnings", "recession", "retail sales", "pricey", "prices", "gross domestic")),
     ("technology", "Technology", ("artificial intelligence", "technology", "software", "cyber", "semiconductor", "startup")),
-    ("economy", "Economy and Business", ("economy", "inflation", "federal reserve", "interest rate", "unemployment", "wall street", "stocks", "housing market", "tariff", "jobs report")),
     ("crime", "Crime and Public Safety", ("police", "shooting", "homicide", "murder", "arrest", "charged with", "prison", "crime", "fbi")),
     ("politics", "Politics and Government", ("governor", "senate", "congress", "legislature", "white house", "president", "democrat", "republican", "lawmaker", "supreme court", "mayor", "administration", "house speaker", "state house")),
     ("culture", "Culture and Society", ("museum", "festival", "nfl", "nba", "mlb", "football", "basketball", "baseball", "music", "concert")),
@@ -264,11 +264,19 @@ def is_priority(domain):
     return any(domain == item or domain.endswith("." + item) for item in PRIORITY_DOMAINS)
 
 
-def classify(text):
+def classify(text, section=None):
     lowered = text.lower()
+    scores = []
     for identifier, label, words in CATEGORIES:
-        if any(word in lowered for word in words):
-            return identifier, label
+        score = sum(1 for word in words if word in lowered)
+        if score:
+            scores.append((score, identifier, label))
+    if scores:
+        scores.sort(key=lambda item: item[0], reverse=True)
+        return scores[0][1], scores[0][2]
+    labels = {identifier: label for identifier, label, _words in CATEGORIES}
+    if section in labels:
+        return section, labels[section]
     return "uncategorized", "Uncategorized"
 
 
@@ -323,7 +331,7 @@ def usable_summary(summary, title):
     return summary
 
 
-def make_article(*, title, url, publisher, published, summary, image, geos, bucket):
+def make_article(*, title, url, publisher, published, summary, image, geos, bucket, section=None):
     title = clean_text(title)
     publisher = clean_text(publisher)
     if publisher and title.lower().endswith(publisher.lower()):
@@ -340,7 +348,7 @@ def make_article(*, title, url, publisher, published, summary, image, geos, buck
     if "bing.com" in domain or "news.google.com" in domain:
         return None
     summary = usable_summary(clean_text(summary), title)
-    category, label = classify(f"{title} {summary or ''}")
+    category, label = classify(f"{title} {summary or ''}", section)
     image = html.unescape(image).strip() if image else ""
     if image.startswith("http://") and "bing.com" in image:
         image = "https://" + image[len("http://"):]
@@ -401,7 +409,7 @@ def link_from(block):
     return ""
 
 
-def parse_feed(xml, publisher=None, bucket="us"):
+def parse_feed(xml, publisher=None, bucket="us", section=None):
     blocks = re.findall(r"<item\b[^>]*>([\s\S]*?)</item>", xml, re.I)
     atom = False
     if not blocks:
@@ -423,6 +431,7 @@ def parse_feed(xml, publisher=None, bucket="us"):
             image=image_from(block),
             geos=geos,
             bucket=bucket,
+            section=section,
         )
         if article:
             articles.append(article)
@@ -510,7 +519,7 @@ def load_wires():
                 if "<item" not in xml.lower() and "<entry" not in xml.lower():
                     print(f"feed {feed['id']} had no items")
                     return feed["id"], [], "empty"
-                return feed["id"], parse_feed(xml, feed["publisher"], feed["bucket"]), "ok"
+                return feed["id"], parse_feed(xml, feed["publisher"], feed["bucket"], feed.get("section")), "ok"
             except (urllib.error.URLError, TimeoutError, OSError, ValueError) as error:
                 return feed["id"], [], str(error.__class__.__name__)
 
@@ -694,7 +703,7 @@ def get_national():
         pool = [article for article in wires["articles"] if us_relevant(article)]
         pool.extend(indexed["articles"])
         pool.extend(article for article in extras if us_relevant(article))
-        articles = dedupe(pool)[:16]
+        articles = dedupe(pool)[:48]
         notice = ""
         if not indexed["ok"] and wires["feedOk"]:
             notice = "The search index did not respond. Showing publisher-wire stories only."
@@ -734,7 +743,7 @@ def get_state(abbr):
         pool = [article for article in wires["articles"] if matches_state(article, state)]
         pool.extend(article for article in indexed["articles"] if matches_state(article, state))
         pool.extend(article for article in extras if matches_state(article, state))
-        articles = dedupe(pool)[:18]
+        articles = dedupe(pool)[:36]
         notice = ""
         if not indexed["ok"] and wires["feedOk"]:
             notice = "The local search index did not respond. Showing matching wire stories only."
@@ -785,7 +794,7 @@ def get_search(query):
         pool = [article for article in wires["articles"] if hits(article)]
         pool.extend(article for article in indexed["articles"] if hits(article) or not words)
         pool.extend(article for article in optional_apis(cleaned) if hits(article))
-        articles = dedupe(pool)[:18]
+        articles = dedupe(pool)[:36]
         if wires["feedOk"] <= 0 and not indexed["ok"]:
             payload = envelope("search", [], ok=False, feed_ok=0)
         else:
