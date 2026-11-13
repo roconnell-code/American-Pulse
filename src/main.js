@@ -1,5 +1,6 @@
 import { startParticles } from "./fx.js";
 import { mountMap, readoutHtml } from "./map.js";
+import { hideArrival, showArrival } from "./emblems.js";
 import { bindPanel, renderPanel } from "./panel.js";
 import { mountSearch } from "./search.js";
 import { esc } from "./format.js";
@@ -24,6 +25,7 @@ const clock = document.querySelector("#clock");
 const ticker = document.querySelector("#ticker");
 const livePill = document.querySelector("#live-pill");
 const readout = document.querySelector("#readout");
+const arrival = document.querySelector("#arrival");
 const intel = document.querySelector("#intel-body");
 const status = document.querySelector("#index-status");
 const liveRegion = document.querySelector("#live-region");
@@ -75,7 +77,7 @@ function paint() {
   });
   model.keepFocus = false;
   const description = map?.describe(null);
-  if (!model.hovering) readout.innerHTML = readoutHtml(description);
+  if (!model.hovering) readout.innerHTML = model.selected ? "" : readoutHtml(description);
   const full = Object.values(model.depth).filter((item) => item === "full").length;
   status.textContent = full ? `Local index ${full}/51` : "Indexing local news";
   document.title = model.selected ? `${currentState()?.name || "State"} — American Pulse` : "American Pulse";
@@ -183,6 +185,7 @@ async function selectState(abbr) {
   model.loading = true;
   model.payload = null;
   map.setSelected(abbr);
+  showArrival(arrival, info);
   liveRegion.textContent = `Opening ${info.name}.`;
   paint();
   try {
@@ -214,6 +217,7 @@ async function runSearch(query) {
   model.filter = "";
   model.loading = true;
   model.payload = null;
+  hideArrival(arrival);
   paint();
   try {
     const payload = await getNews({ scope: "search", q: query });
@@ -248,6 +252,7 @@ function showNational() {
   model.category = "all";
   model.filter = "";
   map.setSelected(null);
+  hideArrival(arrival);
   model.loading = false;
   model.payload = model.nationalPayload || { ok: false, articles: [], error: UNAVAILABLE, message: UNAVAILABLE };
   syncTicker(model.nationalPayload?.articles || []);

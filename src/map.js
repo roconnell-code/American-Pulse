@@ -27,6 +27,10 @@ function mountTilt(tilt) {
     active = false;
   });
   function frame(now) {
+    if (tilt.dataset.panning === "true") {
+      requestAnimationFrame(frame);
+      return;
+    }
     const goalX = 36 + Math.sin(now / 4200) * 2 + (active ? -py * 5 : 0);
     const goalY = Math.sin(now / 5600) * 14 + (active ? px * 10 : 0);
     x += (goalX - x) * 0.045;
@@ -105,7 +109,6 @@ export function mountMap(svg, geography, states, handlers) {
     path.addEventListener("pointerleave", () => handlers.hover(null));
     path.addEventListener("focus", () => handlers.hover(info));
     path.addEventListener("blur", () => handlers.hover(null));
-    path.addEventListener("click", () => handlers.select(shape.abbr));
     path.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
@@ -118,6 +121,88 @@ export function mountMap(svg, geography, states, handlers) {
   applyView(current);
   mountTilt(tilt);
   svg.addEventListener("pointerleave", () => handlers.hover(null));
+  enableNavigation();
+
+  function clientToUser(clientX, clientY) {
+    const point = svg.createSVGPoint();
+    point.x = clientX;
+    point.y = clientY;
+    const matrix = svg.getScreenCTM();
+    if (!matrix) return null;
+    return point.matrixTransform(matrix.inverse());
+  }
+
+  function enableNavigation() {
+    const aspect = view.full[2] / view.full[3];
+    const minWidth = view.full[2] / 8;
+    const maxWidth = view.full[2] * 1.35;
+    let drag = null;
+
+    svg.addEventListener("pointerdown", (event) => {
+      if (event.button !== 0) return;
+      const path = event.target?.classList?.contains("state") ? event.target : null;
+      cancelAnimationFrame(frame);
+      drag = {
+        id: event.pointerId,
+        x: event.clientX,
+        y: event.clientY,
+        moved: false,
+        path,
+      };
+      svg.setPointerCapture(event.pointerId);
+    });
+
+    svg.addEventListener("pointermove", (event) => {
+      if (!drag || event.pointerId !== drag.id) return;
+      const distance = Math.hypot(event.clientX - drag.x, event.clientY - drag.y);
+      if (!drag.moved && distance < 12) return;
+      const before = clientToUser(drag.x, drag.y);
+      const after = clientToUser(event.clientX, event.clientY);
+      drag.moved = true;
+      drag.x = event.clientX;
+      drag.y = event.clientY;
+      tilt.dataset.panning = "true";
+      svg.classList.add("is-panning");
+      if (!before || !after) return;
+      current[0] += before.x - after.x;
+      current[1] += before.y - after.y;
+      applyView(current);
+    });
+
+    function endDrag(event) {
+      if (!drag || event.pointerId !== drag.id) return;
+      const { moved, path } = drag;
+      drag = null;
+      delete tilt.dataset.panning;
+      svg.classList.remove("is-panning");
+      if (!moved && path) {
+        path.blur();
+        handlers.select(path.dataset.abbr);
+      }
+    }
+
+    svg.addEventListener("pointerup", endDrag);
+    svg.addEventListener("pointercancel", endDrag);
+
+    svg.addEventListener("wheel", (event) => {
+      event.preventDefault();
+      cancelAnimationFrame(frame);
+      const before = clientToUser(event.clientX, event.clientY);
+      const factor = Math.exp(event.deltaY * 0.0011);
+      const nextWidth = Math.min(maxWidth, Math.max(minWidth, current[2] * factor));
+      const applied = nextWidth / current[2];
+      current[2] = nextWidth;
+      current[3] = current[3] * applied;
+      if (Math.abs(current[2] / current[3] - aspect) > 0.02) current[3] = current[2] / aspect;
+      applyView(current);
+      const after = clientToUser(event.clientX, event.clientY);
+      if (before && after) {
+        current[0] += before.x - after.x;
+        current[1] += before.y - after.y;
+        applyView(current);
+      }
+    }, { passive: false });
+  }
 
   function applyCounts() {
     for (const path of layer.children) {
